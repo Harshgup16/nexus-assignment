@@ -1,93 +1,150 @@
-# EnviroWealth Market Intelligence Competitor Analyzer
+# 🛰️ Nexus Startup & Competitor Intelligence Hub
 
-EnviroWealth Market Intelligence is a powerful, AI-driven market intelligence, competitor analysis, and lead generation dashboard built for founders and startups. It performs real-time competitor research, formats structured insights, highlights market gaps and risks, generates high-quality sales leads, and offers a comprehensive roadmap of priority actions.
+Nexus is a state-of-the-art AI-driven market intelligence platform. Designed for founders, startup teams, and product managers, it automates deep competitor research, maps feature and pricing matrices, evaluates strategic threats/opportunities, and generates verified sales leads.
+
+---
+
+## 📸 Interface Preview
+
+Here is a visual walkthrough of the Nexus workspace:
+
+### 1. Landing Interface & Idea Formulation
+Input a product concept, website URL, company name, or startup pitch. No mandatory fields or strict validations are required to start a quick scan.
+![Landing & Input Stage](public/image1.png)
+
+### 2. Interactive Competitor Comparison & Positioning Matrix
+Analyze 5 real competitors with visual pricing tables, adoption matrixes, and live-rendered charts comparing market share, feature adoption, and innovation indices.
+![Competitor Matrix](public/image2.png)
+
+### 3. Strategy Roadmap & Lead Contact Board
+Manage immediate actions, target leads, strategic recommendation plans, and download exports (B2B leads CSV, complete analysis PDF).
+![Leads & Strategic Recommendations](public/image3.png)
+
+---
+
+## ⚙️ How it Works (Flow Architecture)
+
+The following diagram illustrates how user inputs are processed through search query optimization, rotated API endpoints, sequential LLM parsing, and rendering engines:
+
+```mermaid
+graph TD
+    A[User Input: Idea, Company, Website, or Pitch] --> B[Domain Keyword Extraction & Filtering]
+    B -->|Strips Location & Fillers| C[Tavily Search API Engine]
+    C -->|3 Distinct Multi-Queries| D[Raw Competitive Search Results]
+    D -->|Deduplicate & Score Sort| E[Trimmed Context Block <6000 Chars]
+    
+    E --> F[Sequential API Request pipeline]
+    
+    F -->|Key Rotation Index 1| G[Groq Call: Competitor Analysis]
+    F -->|Key Rotation Index 2| H[Groq Call: B2B Lead Generator]
+    F -->|Key Rotation Index 3| I[Groq Call: Strategic Roadmap]
+    
+    G --> J[Regex Delimiter Parsing]
+    H --> J
+    I --> J
+    
+    J -->|Structured JSON Objects| K[Next.js App UI State]
+    K -->|Recharts & Canvas Rendering| L[Interactive Premium Dark Dashboard]
+    L -->|One-click Exports| M[PDF Report & CSV Leads Download]
+```
 
 ---
 
 ## 🚀 Key Features
 
-* **Real-time Web Search & Context Gathering**: Integrated with Tavily Search API to retrieve active, current web data about competitor startups, pricing, and product offerings.
-* **Granular Parallel AI Analysis**: Employs Groq Cloud API (`llama-3.3-70b-versatile` model) with three parallel text generation calls (Competitors, Leads, and Strategic Recommendations). This bypasses the typical 4KB output limits and prevents structured schema validation failures.
-* **Interactive Data Visualizations**: Built-in Recharts charts including:
-  * Pricing Comparison Chart (Starter/Basic tier plans compared directly).
-  * Competitor Positioning Map (Innovation Index vs. Market Share positioning).
-  * Market Landscape Radar (Comparing Feature Completeness, API Reliability, Customer Success, and Data Accuracy).
-  * Feature Gap Analysis (Adoption rates showing missing opportunities).
-* **B2B Lead Generation & ICP Profiling**: Identifies potential target buyers, contact personas, email formulas, LinkedIn profiles, and match confidence scores.
-* **Robust Exports**: Single-click PDF export for the full analysis report and CSV export for B2B leads.
-* **Resiliency & Performance**: Includes input sanitization via Zod, rate limiting (10 req/min per IP), and a 2-minute local in-memory cache to prevent duplicate external API calls.
+* **Advanced Search Keyword Filters**: Automatically filters out geographical noise (e.g. `India`, `Surat`, `Gujarat`) and business filler verbs to keep Tavily queries focused on domain alternatives.
+* **Auto-Rotated Groq API Key Loop**: Integrates multiple API keys (`GROQ_API_KEY`, `GROQ_API_KEY_2`, `GROQ_API_KEY_3`) to bypass free-tier Token-Per-Minute (TPM) rate limit ceilings.
+* **Sequential Request Pipeline**: Replaced parallel requests with sequential processing combined with a 500ms delay to prevent simultaneous limit exhaustion.
+* **4-Dimensional Data Visualization**:
+  * **Competitor Positioning Chart**: Maps innovation index against market share.
+  * **Landscape Radar**: Evaluates competitor metrics like API availability, feature adoption, data precision, and customer response times.
+  * **Pricing Index**: Side-by-side comparative starter plans.
+  * **Feature Adoption Rate**: Percentage of market alternatives adopting specific features.
+* **CSV & PDF Exporter**: Instant download of leads for cold outreach and complete intelligence decks for stakeholders.
+* **Cache & Limit Guards**: In-memory caching prevents duplicate external requests within 2 minutes, backed by an IP-based request throttle (10 requests/minute).
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Frontend**: Next.js 15 (App Router), React 19, TypeScript, Lucide Icons, Recharts, html2canvas, jsPDF.
-* **Backend**: Next.js Route Handlers (Serverless API).
-* **AI & Search API Services**: Groq AI Cloud SDK (`llama-3.3-70b-versatile`), Tavily Web Search API.
-* **Aesthetics**: Premium Dark theme using Custom CSS glassmorphism, Satoshi modern typography, HSL tailored variables, and micro-interactions.
+* **Frontend**: Next.js (App Router), React 19, TypeScript, Recharts, TailwindCSS.
+* **Backend**: Serverless API Route Handlers.
+* **AI & Search Engines**: Tavily Search Core SDK, Groq Llama-3.3-70b-versatile, Llama-3.1-8b-instant.
+* **Exports & Utilities**: jsPDF, HTML2Canvas, Zod, Hashing algorithms.
+* **Design Aesthetic**: Premium Dark Mode Theme (`#141414`), tailored HSL accent boundaries, and smooth micro-animations.
 
 ---
 
 ## 💻 Setup & Installation Instructions
 
 ### Prerequisites
-Ensure you have **Node.js (v18.x or higher)** and **npm** installed on your system.
+Make sure you have **Node.js (v18.0.0 or higher)** installed.
 
-### 1. Clone & Install Dependencies
-Navigate into your workspace directory and install required npm packages:
+### 1. Install Dependencies
+Clone or download the project files, enter the directory, and run:
 ```bash
 npm install
 ```
 
-### 2. Configure Environment Variables
-Create a file named `.env` in the root directory (or modify the existing one) and fill in the API keys:
+### 2. Set Up Environment Variables
+Create a `.env` file in the root directory and add your keys:
 ```env
-GROQ_API_KEY=your_groq_api_key_here
-TAVILY_API_KEY=your_tavily_api_key_here
-```
-*(Make sure not to commit this file to version control. It is already ignored by `.gitignore`)*
+# Add up to 3 Groq keys for automatic rate-limit rotation
+GROQ_API_KEY=gsk_your_primary_key_here
+GROQ_API_KEY_2=gsk_your_second_key_here
+GROQ_API_KEY_3=gsk_your_third_key_here
 
-### 3. Run Development Server
-Start the local server:
+# Tavily API key for web search
+TAVILY_API_KEY=tvly-dev-your_key_here
+```
+
+### 3. Launch Development Server
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your web browser to access the dashboard.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🏛️ Architecture Overview
-
-The application follows a clean Next.js App Router layout with clear separation of concerns:
+## 📂 Project Architecture
 
 ```
 ├── app/
 │   ├── api/
 │   │   └── analyze/
-│   │       └── route.ts         # Server-side API endpoint: Rate limits, cache validation & route entry
-│   ├── layout.tsx               # Root layout setup & CDN font styling
-│   └── page.tsx                 # Main client page (handles loading, analysis state, landing form)
+│   │       └── route.ts         # Route Handler: Rate limits, caching, Zod guards
+│   ├── layout.tsx               # Root Layout & Satoshi styling imports
+│   └── page.tsx                 # Entry page: loading state, formulation form
 ├── components/
 │   ├── analysis/
-│   │   ├── AnalysisDashboard.tsx # Continuous vertical report, Recharts graphics & export buttons
+│   │   ├── AnalysisDashboard.tsx # Combined analytical dashboard view
+│   │   └── CompetitorAnalysisTab.tsx # Competitor table & radar visuals
+│   ├── dashboard/
+│   │   └── FounderDashboardTab.tsx   # Feature roadmaps & threat indices
+│   ├── landing/
+│   │   └── LandingView.tsx           # Formulation form
+│   ├── leads/
+│   │   └── LeadGenerationTab.tsx     # B2B profiles & CSV exports
+│   ├── recommendations/
+│   │   └── RecommendationsTab.tsx    # Strategy recommendations
 │   └── ui/
-│       └── index.tsx            # Styled atomic reusable components (Card, Button, Badge)
+│       └── index.tsx            # Styled atomic primitives (Card, Badge, Button)
 ├── lib/
-│   ├── analyzer.ts              # Analysis Orchestrator: Tavily lookup + parallel Groq API prompts
-│   ├── prompts.ts               # Sectional instructions and delimiter formats
-│   ├── schemas.ts               # Zod input schemas for validation
-│   ├── tavily.ts                # Web search helper
-│   └── types.ts                 # TypeScript type interfaces mapping the pipeline objects
+│   ├── analyzer.ts              # Analysis Orchestrator & Groq calling loops
+│   ├── prompts.ts               # Structured prompts
+│   ├── schemas.ts               # Input validators
+│   ├── tavily.ts                # Search keyword filter & query builder
+│   └── types.ts                 # TypeScript type schemas
+├── public/
+│   ├── image1.png               # Screenshot 1
+│   ├── image2.png               # Screenshot 2
+│   └── image3.png               # Screenshot 3
 ```
-
-### Key Design Decisions & Optimization
-1. **Parallel Execution**: Moving away from a monolithic `generateObject` call (which regularly caused `AI_NoObjectGeneratedError` or truncation on Groq) to three parallel `generateText` requests. This improves response latency and guarantees detail-rich outputs.
-2. **Text Parsing**: Delimiter parsing (`---COMPETITOR---`, `---LEAD---`) allows flexible, non-blocking string formatting and converts markdown representations into strong TypeScript objects safely.
 
 ---
 
-## 📋 Assumptions Made
+## 📋 Assumptions & Heuristics
 
-1. **Competitor Pricing**: When specific pricing is missing from a competitor's public site, the analyzer defaults to a basic subscription model estimate ($29) to populate visual comparison charts.
-2. **Leads Contact Details**: If contact details are not explicitly exposed via web search indexes, email addresses are constructed using common corporate pattern guidelines (`first.last@company.com`) and marked with an AI inference indicator.
-3. **Evidence Type**: Analysis fields distinguish between `verified` (retrieved from search documents), `inferred` (logical deductions made by the AI model), and `assumptions` (heuristic-based suggestions) to prevent acting as a "black box".
+1. **Competitor Pricing**: When specific plans are not found in the Tavily web search response, standard starter tiers are assumed at $29/mo or marked "Contact for pricing".
+2. **Contact Inference**: If exact executive emails are not exposed in search indexes, standard corporate email formats (`first.last@company.com`) are generated and labeled with `ai_inferred`.
+3. **Verified vs Inferred Status**: Values are labeled with either `verified` (direct match in web search index) or `inferred` (deduced by the strategy engine) to maintain transparency.
