@@ -239,10 +239,10 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+    <div className="nexus-container">
       
       {/* Back & Export Buttons */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="dashboard-header-row">
         <button
           onClick={onReset}
           style={{
@@ -294,32 +294,13 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
 
         {/* Modular Segmented Sub-Tab Switcher */}
         {!isExporting && (
-          <div style={{ 
-            display: 'flex', 
-            background: '#1a1a1a', 
-            border: '1px solid var(--border-glass)', 
-            borderRadius: '12px', 
-            padding: '4px',
-            gap: '4px',
-            margin: '8px 0 16px 0'
-          }}>
+          <div className="tab-switcher">
             <button 
               onClick={() => setActiveTab('roadmap')}
+              className="tab-button"
               style={{
-                flex: 1,
-                padding: '12px 8px',
-                borderRadius: '8px',
-                border: 'none',
                 background: activeTab === 'roadmap' ? '#252525' : 'transparent',
-                color: activeTab === 'roadmap' ? '#c084fc' : 'var(--text-secondary)',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'var(--transition-smooth)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
+                color: activeTab === 'roadmap' ? '#c084fc' : 'var(--text-secondary)'
               }}
             >
               <CheckCircle size={15} />
@@ -327,21 +308,10 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
             </button>
             <button 
               onClick={() => setActiveTab('competitors')}
+              className="tab-button"
               style={{
-                flex: 1,
-                padding: '12px 8px',
-                borderRadius: '8px',
-                border: 'none',
                 background: activeTab === 'competitors' ? '#252525' : 'transparent',
-                color: activeTab === 'competitors' ? '#34d399' : 'var(--text-secondary)',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'var(--transition-smooth)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
+                color: activeTab === 'competitors' ? '#34d399' : 'var(--text-secondary)'
               }}
             >
               <TrendingUp size={15} />
@@ -349,21 +319,10 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
             </button>
             <button 
               onClick={() => setActiveTab('leads')}
+              className="tab-button"
               style={{
-                flex: 1,
-                padding: '12px 8px',
-                borderRadius: '8px',
-                border: 'none',
                 background: activeTab === 'leads' ? '#252525' : 'transparent',
-                color: activeTab === 'leads' ? '#60a5fa' : 'var(--text-secondary)',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'var(--transition-smooth)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
+                color: activeTab === 'leads' ? '#60a5fa' : 'var(--text-secondary)'
               }}
             >
               <Target size={15} />
@@ -371,21 +330,10 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
             </button>
             <button 
               onClick={() => setActiveTab('recommendations')}
+              className="tab-button"
               style={{
-                flex: 1,
-                padding: '12px 8px',
-                borderRadius: '8px',
-                border: 'none',
                 background: activeTab === 'recommendations' ? '#252525' : 'transparent',
-                color: activeTab === 'recommendations' ? '#a78bfa' : 'var(--text-secondary)',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'var(--transition-smooth)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
+                color: activeTab === 'recommendations' ? '#a78bfa' : 'var(--text-secondary)'
               }}
             >
               <Lightbulb size={15} />
@@ -437,7 +385,7 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
                 <AlertTriangle size={22} /> Market Gaps & Risks
               </h2>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
+              <div className="gaps-threats-grid">
                 {/* Missing Opportunities */}
                 <div>
                   <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>Missing Market Opportunities</h3>
@@ -511,7 +459,7 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
                     </div>
                   </div>
 
-                  <div style={{ marginTop: '16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', fontSize: '0.9rem' }}>
+                  <div className="strengths-weaknesses-grid">
                     <div>
                       <strong style={{ color: '#34d399' }}>Key Strengths</strong>
                       <ul style={{ paddingLeft: '20px', margin: '4px 0 0 0', display: 'flex', flexDirection: 'column', gap: '4px', color: 'var(--text-secondary)' }}>
@@ -564,7 +512,7 @@ export const AnalysisDashboard: React.FC<Props> = ({ result, onReset }) => {
               {/* Interactive Visualizations */}
               <div style={{ marginTop: '40px' }}>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 20px 0' }}>Interactive Visualizations</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '20px' }}>
+                <div className="chart-grid">
                   {/* Pricing Comparison */}
                   <Card>
                     <CardHeader>

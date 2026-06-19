@@ -59,18 +59,18 @@ export const LandingView: React.FC<Props> = ({ onSubmit, isLoading }) => {
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '60px 20px', display: 'flex', flexDirection: 'column', gap: '60px' }}>
+    <div className="nexus-container">
       
       {/* HERO HEADER SECTION */}
       <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h1 style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1 }}>
+        <h1 className="hero-title">
           Analyze Competitors & <br />
           <span className="gradient-text">Generate Quality Leads</span>
         </h1>
       </div>
 
       {/* TWO COLUMN FORM & PREVIEW SECTION */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '40px', alignItems: 'flex-start' }}>
+      <div className="landing-grid">
         
         {/* INPUT FORM CARD */}
         <Card style={{ padding: '32px' }}>
@@ -109,7 +109,7 @@ export const LandingView: React.FC<Props> = ({ onSubmit, isLoading }) => {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="form-row-grid">
                 <div className="input-group">
                   <label className="input-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <Globe size={14} /> Website URL
